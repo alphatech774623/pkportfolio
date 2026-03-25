@@ -56,8 +56,6 @@ return (
           top: 20,
           left: 20,
           zIndex: 2000,
-          background: "rgba(255,255,255,0.1)",
-          backdropFilter: "blur(10px)",
           color: "#fff",
         }}
       >
