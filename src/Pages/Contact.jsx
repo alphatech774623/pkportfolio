@@ -154,7 +154,7 @@ const mailLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${
 const socials = [
 { icon: <FaGithub />, link: "https://github.com/alphatech774623" },
 { icon: <FaLinkedin />, link: "https://linkedin.com/in/prince-maurya-7826a7324" },
-{ icon: <FaWhatsapp />, link: "https://wa.me/8840039506" },
+{ icon: <FaWhatsapp />, link: "https://wa.me/918840039506" },
 { icon: <FaEnvelope />, link: mailLink },
 ];
 
