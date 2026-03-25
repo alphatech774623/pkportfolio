@@ -147,11 +147,11 @@ try {
 };
 
 const socials = [
-{ icon: <FaGithub />, link: "#" },
-{ icon: <FaLinkedin />, link: "#" },
+{ icon: <FaGithub />, link: "https://github.com/alphatech774623" },
+{ icon: <FaLinkedin />, link: "https://linkedin.com/in/prince-maurya-7826a7324" },
 { icon: <FaInstagram />, link: "#" },
-{ icon: <FaWhatsapp />, link: "#" },
-{ icon: <FaEnvelope />, link: "#" },
+{ icon: <FaWhatsapp />, link: "https://wa.me/8840039506" },
+{ icon: <FaEnvelope />, link: "mailto:your@email.com" },
 ];
 
 return (
