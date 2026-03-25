@@ -151,7 +151,7 @@ const socials = [
 { icon: <FaLinkedin />, link: "https://linkedin.com/in/prince-maurya-7826a7324" },
 { icon: <FaInstagram />, link: "#" },
 { icon: <FaWhatsapp />, link: "https://wa.me/8840039506" },
-{ icon: <FaEnvelope />, link: "mailto:your@email.com" },
+{ icon: <FaEnvelope />, link: "mailto:princemaurya529@gmail .com" },
 ];
 
 return (
@@ -240,6 +240,7 @@ onClose={() => setToast({ ...toast, show: false })}
                 key={i}
                 component="a"
                 href={item.link}
+                target="_blank"
                 sx={{
                   width: 55,
                   height: 55,
