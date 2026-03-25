@@ -145,13 +145,17 @@ try {
 }
 
 };
+const email = "princemaurya529@gmail.com";
 
+const subject = "Hiring Request";
+const body = "Hi Prince, I saw your portfolio and want to work with you.";
+
+const mailLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 const socials = [
 { icon: <FaGithub />, link: "https://github.com/alphatech774623" },
 { icon: <FaLinkedin />, link: "https://linkedin.com/in/prince-maurya-7826a7324" },
-{ icon: <FaInstagram />, link: "#" },
 { icon: <FaWhatsapp />, link: "https://wa.me/8840039506" },
-{ icon: <FaEnvelope />, link: "mailto:princemaurya529@gmail .com" },
+{ icon: <FaEnvelope />, link: mailLink },
 ];
 
 return (
@@ -241,6 +245,7 @@ onClose={() => setToast({ ...toast, show: false })}
                 component="a"
                 href={item.link}
                 target="_blank"
+                rel="noopener noreferrer"
                 sx={{
                   width: 55,
                   height: 55,
