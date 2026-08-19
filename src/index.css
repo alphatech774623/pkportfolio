@@ -1259,7 +1259,7 @@ html,body{
 /* Mongo — bottom left */
 
 .tech-mongo {
-  bottom: 50px;
+  bottom: 100px;
   left: -22px;
 
   color: #4db33d;
