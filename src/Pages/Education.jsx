@@ -20,6 +20,7 @@ import {
   SiGithub,
 } from "react-icons/si";
 
+import "./Education.css";
 
 const educationData = [
   {
