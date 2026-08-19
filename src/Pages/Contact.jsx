@@ -346,7 +346,7 @@ export default function Contact() {
     {
       name: "WhatsApp",
       icon: <FaWhatsapp />,
-      link: "https://wa.me/918840039506",
+      link: "https://wa.me/919719764282",
       className: "whatsapp",
     },
     {
