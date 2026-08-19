@@ -8,10 +8,14 @@ export default function ProjectActions({
   project,
   onPrivate,
 }) {
+  const handlePrivate = () => {
+    if (typeof onPrivate === "function") {
+      onPrivate();
+    }
+  };
+
   return (
     <div className="project-actions">
-
-      {/* LIVE PROJECT */}
       {project.liveLink && (
         <a
           href={project.liveLink}
@@ -24,7 +28,6 @@ export default function ProjectActions({
         </a>
       )}
 
-      {/* SOURCE CODE */}
       {project.showCode && project.codeLink ? (
         <a
           href={project.codeLink}
@@ -39,13 +42,14 @@ export default function ProjectActions({
         <button
           type="button"
           className="project-secondary-button"
-          onClick={onPrivate}
+          onClick={handlePrivate}
+          disabled={!onPrivate}
+          aria-label="Source code is private"
         >
           <FaLock />
           Private Code
         </button>
       )}
-
     </div>
   );
 }
