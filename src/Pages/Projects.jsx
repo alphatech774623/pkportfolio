@@ -10,8 +10,9 @@ import {
 
 import Toast from "../Components/Toast";
 import FeaturedProject from "../Components/FeaturedProject";
+import ProjectTech from "../Components/ProjectTech";
+import ProjectActions from "../Components/ProjectActions";
 import { projects } from "../utils/projects";
-
 
 export default function Projects() {
   const pageRef = useRef(null);
@@ -88,9 +89,7 @@ export default function Projects() {
 
   return (
     <main className="projects-page" ref={pageRef}>
-      {/* BACKGROUND */}
       <div className="projects-background-grid"></div>
-
       <div className="projects-glow projects-glow-one"></div>
       <div className="projects-glow projects-glow-two"></div>
 
@@ -107,10 +106,6 @@ export default function Projects() {
           }
         />
       )}
-
-      {/* =====================================================
-          HEADER
-      ====================================================== */}
 
       <section className="projects-header">
         <div className="container">
@@ -131,18 +126,10 @@ export default function Projects() {
         </div>
       </section>
 
-      {/* =====================================================
-          FEATURED PROJECT
-      ====================================================== */}
-
-     <FeaturedProject
-  project={projects[0]}
-  onPrivate={showPrivateMessage}
-/>
-
-      {/* =====================================================
-          OTHER PROJECTS
-      ====================================================== */}
+      <FeaturedProject
+        project={projects[0]}
+        onPrivate={showPrivateMessage}
+      />
 
       <section className="other-projects-section">
         <div className="container">
@@ -170,7 +157,6 @@ export default function Projects() {
                 key={project.id}
               >
                 <article className="project-card">
-                  {/* IMAGE */}
                   <div className="project-card-image">
                     <img
                       src={project.image}
@@ -187,24 +173,24 @@ export default function Projects() {
                     </div>
                   </div>
 
-                  {/* CONTENT */}
                   <div className="project-card-content">
                     <div className="project-type">
                       {project.type}
                     </div>
 
                     <h3>{project.title}</h3>
-
                     <p>{project.desc}</p>
 
-                    <div className="small-feature-list">
-                      {project.features.slice(0, 3).map((feature) => (
-                        <span key={feature}>
-                          <FaCheckCircle />
-                          {feature}
-                        </span>
-                      ))}
-                    </div>
+                    {project.features?.length > 0 && (
+                      <div className="small-feature-list">
+                        {project.features.slice(0, 3).map((feature) => (
+                          <span key={feature}>
+                            <FaCheckCircle />
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+                    )}
 
                     <ProjectTech tech={project.tech} />
 
@@ -219,10 +205,6 @@ export default function Projects() {
           </div>
         </div>
       </section>
-
-      {/* =====================================================
-          PROJECT PHILOSOPHY
-      ====================================================== */}
 
       <section className="project-philosophy-section">
         <div className="container">
