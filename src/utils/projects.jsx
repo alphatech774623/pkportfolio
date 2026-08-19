@@ -17,7 +17,7 @@ export const projects = [
     number: "01",
     featured: true,
     type: "FULL STACK PRODUCT",
-    title: "Fixkar Smart Services",
+    title: "Fixkar Smart Solutions",
     shortTitle: "Fixkar",
     desc: "A service marketplace designed to connect customers with local professionals for home and business services.",
     image: "/fixkar.png",
