@@ -478,7 +478,7 @@ export default function Contact() {
 
                   <div>
                     <span>LOCATION</span>
-                    <strong>Varanasi, India</strong>
+                    <strong>Mau, Uttarpradesh, India</strong>
                   </div>
                 </div>
 
