@@ -1,3 +1,16 @@
+import { FaCode } from "react-icons/fa";
+import {
+  SiReact,
+  SiNodedotjs,
+  SiMongodb,
+  SiExpress,
+  SiWordpress,
+  SiBootstrap,
+  SiGooglecloud,
+  SiCloudinary,
+  SiGsap,
+} from "react-icons/si";
+
 export const projects = [
   {
     id: "fixkar",
@@ -8,10 +21,8 @@ export const projects = [
     shortTitle: "Fixkar",
     desc: "A service marketplace designed to connect customers with local professionals for home and business services.",
     image: "/fixkar.png",
-
     overview:
       "A real-world MERN application concept focused on customer-professional discovery, onboarding, bookings, payments and service management.",
-
     features: [
       "Customer & professional workflows",
       "Authentication & authorization",
@@ -20,7 +31,6 @@ export const projects = [
       "Payment workflow",
       "Location-based discovery",
     ],
-
     tech: [
       { name: "React", icon: <SiReact /> },
       { name: "Node.js", icon: <SiNodedotjs /> },
@@ -28,7 +38,6 @@ export const projects = [
       { name: "MongoDB", icon: <SiMongodb /> },
       { name: "Google Cloud", icon: <SiGooglecloud /> },
     ],
-
     liveLink: "https://fixkarr.com",
     codeLink: "",
     showCode: false,
@@ -41,20 +50,17 @@ export const projects = [
     title: "Alpha Tech Dev",
     desc: "A technology-focused blog platform built for publishing development, gadgets and software-related content.",
     image: "/alphatechdev.png",
-
     features: [
       "Content management",
       "Responsive design",
       "SEO-focused structure",
       "Custom website styling",
     ],
-
     tech: [
       { name: "WordPress", icon: <SiWordpress /> },
       { name: "SEO", icon: <FaCode /> },
       { name: "CMS", icon: <FaCode /> },
     ],
-
     liveLink: "https://alphatechdev.com",
     codeLink: "",
     showCode: false,
@@ -67,20 +73,17 @@ export const projects = [
     title: "OnnDmnd Platform",
     desc: "A modern landing platform focused on lead generation and capturing customer enquiries.",
     image: "/onndmnd.png",
-
     features: [
       "Responsive landing experience",
       "Lead capture workflow",
       "Google Sheets integration",
       "Conversion-focused UI",
     ],
-
     tech: [
       { name: "React", icon: <SiReact /> },
       { name: "Bootstrap", icon: <SiBootstrap /> },
       { name: "Google Sheets", icon: <FaCode /> },
     ],
-
     liveLink: "https://onndmnd.com",
     codeLink: "https://github.com/alphatech774623/OnnDmnd",
     showCode: true,
@@ -93,20 +96,17 @@ export const projects = [
     title: "Developer Portfolio",
     desc: "A personal portfolio designed to present my development work, technical skills and professional profile.",
     image: "/portfolio.png",
-
     features: [
       "Responsive portfolio",
       "Project showcase",
       "Animated interactions",
       "Resume integration",
     ],
-
     tech: [
       { name: "React", icon: <SiReact /> },
       { name: "GSAP", icon: <SiGsap /> },
       { name: "Bootstrap", icon: <SiBootstrap /> },
     ],
-
     liveLink: "https://princemauryainfo.netlify.app",
     codeLink: "https://github.com/alphatech774623/pkportfolio",
     showCode: true,
@@ -119,21 +119,18 @@ export const projects = [
     title: "Apna Ghar",
     desc: "A real-estate platform concept for discovering and managing apartment properties through a modern web interface.",
     image: "/apnaghar.png",
-
     features: [
       "Property discovery",
       "MERN architecture",
       "Cloudinary image handling",
       "Responsive UI",
     ],
-
     tech: [
       { name: "React", icon: <SiReact /> },
       { name: "Node.js", icon: <SiNodedotjs /> },
       { name: "MongoDB", icon: <SiMongodb /> },
       { name: "Cloudinary", icon: <SiCloudinary /> },
     ],
-
     liveLink: "https://apna-ghar-six.vercel.app",
     codeLink: "https://github.com/alphatech774623/Apna-Ghar",
     showCode: true,
