@@ -27,6 +27,8 @@ import {
   SiN8N,
   SiOpenai,
 } from "react-icons/si";
+import { projects } from "../utils/projects";
+import FeaturedProject from "../Components/FeaturedProject";
 
 function Home() {
   const heroRef = useRef(null);
@@ -450,104 +452,10 @@ function Home() {
           FEATURED PROJECT
       ====================================================== */}
 
-      <section className="featured-section section-padding">
-        <div className="container">
-          <div className="section-label">FEATURED PROJECT</div>
-
-          <div className="featured-project mt-4">
-            <div className="row g-0 align-items-stretch">
-              <div className="col-lg-7">
-                <div className="featured-image">
-                  <img
-                    src="/fixkar.png"
-                    alt="Fixkar Smart Services"
-                  />
-
-                  <div className="image-overlay">
-                    <span>Full Stack Application</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-lg-5">
-                <div className="featured-content">
-                  <div className="project-number">01 / FEATURED</div>
-
-                  <h2>Fixkar Smart Services</h2>
-
-                  <p>
-                    A service marketplace concept designed to connect
-                    customers with local professionals such as electricians,
-                    plumbers, painters, carpenters and other service
-                    providers.
-                  </p>
-
-                  <div className="project-features">
-                    <div>
-                      <FaCheckCircle />
-                      Customer & professional workflows
-                    </div>
-
-                    <div>
-                      <FaCheckCircle />
-                      Authentication & authorization
-                    </div>
-
-                    <div>
-                      <FaCheckCircle />
-                      Booking & payment architecture
-                    </div>
-
-                    <div>
-                      <FaCheckCircle />
-                      Location-based professional discovery
-                    </div>
-                  </div>
-
-                  <div className="technology-list">
-                    <span>
-                      <FaReact />
-                      React
-                    </span>
-
-                    <span>
-                      <FaNodeJs />
-                      Node.js
-                    </span>
-
-                    <span>
-                      <SiExpress />
-                      Express
-                    </span>
-
-                    <span>
-                      <SiMongodb />
-                      MongoDB
-                    </span>
-                  </div>
-
-                  <div className="featured-actions">
-                    <a
-                      href="https://fixkarr.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="primary-action"
-                    >
-                      View Project
-                      <FaExternalLinkAlt />
-                    </a>
-
-                    <Link to="/projects" className="text-link">
-                      All projects
-                      <FaArrowRight />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+       <FeaturedProject
+        project={projects[0]}
+        onPrivate={() => {}}
+      />
 
       {/* =====================================================
           TECHNOLOGY STACK
