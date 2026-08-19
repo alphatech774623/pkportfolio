@@ -12,7 +12,7 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 
-import "./Navbar.css";
+
 
 const navItems = [
   {
