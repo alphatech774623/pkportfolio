@@ -1,354 +1,789 @@
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-Box,
-Typography,
-Stack,
-TextField,
-Button,
-Avatar,
-} from "@mui/material";
-import {
-FaGithub,
-FaLinkedin,
-FaInstagram,
-FaWhatsapp,
-FaEnvelope,
+  FaGithub,
+  FaLinkedin,
+  FaInstagram,
+  FaWhatsapp,
+  FaEnvelope,
+  FaArrowRight,
+  FaPaperPlane,
+  FaCheckCircle,
+  FaMapMarkerAlt,
+  FaClock,
+  FaBolt,
 } from "react-icons/fa";
+
 import gsap from "gsap";
+
 import Toast from "../Components/Toast";
 
+
 export default function Contact() {
-const leftRef = useRef(null);
-const rightRef = useRef(null);
-const socialRef = useRef(null);
+  const pageRef = useRef(null);
+  const leftRef = useRef(null);
+  const formRef = useRef(null);
 
-const [toast, setToast] = useState({
-show: false,
-message: "",
-type: "",
-});
-
-const [formData, setFormData] = useState({
-name: "",
-email: "",
-subject: "",
-message: "",
-});
-
-const [errors, setErrors] = useState({});
-const [success, setSuccess] = useState("");
-const [loading, setLoading] = useState(false);
-
-useEffect(() => {
-const tl = gsap.timeline();
-
-tl.fromTo(leftRef.current, { x: -100, opacity: 0 }, { x: 0, opacity: 1, duration: 1 })
-  .fromTo(rightRef.current, { x: 100, opacity: 0 }, { x: 0, opacity: 1, duration: 1 }, "-=0.6")
-  .fromTo(
-    socialRef.current.children,
-    { y: 50, opacity: 0, scale: 0.7 },
-    { y: 0, opacity: 1, scale: 1, stagger: 0.1 },
-    "-=0.6"
-  );
-
-gsap.to(".floating-avatar", {
-  y: 15,
-  duration: 2,
-  repeat: -1,
-  yoyo: true,
-});
-
-}, []);
-
-const handleInput = (field) => (e) => {
-const value = e.target.value;
-setFormData((prev) => ({ ...prev, [field]: value }));
-validateField(field, value);
-};
-
-const validateField = (field, value) => {
-let error = "";
-
-if (field === "name") {
-  if (!value.trim()) error = "Name is required";
-  else if (value.length < 3) error = "Minimum 3 characters required";
-}
-
-if (field === "email") {
-  if (!value) error = "Email is required";
-  else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value))
-    error = "Invalid email";
-}
-
-if (field === "subject") {
-  if (!value.trim()) error = "Subject is required";
-  else if (value.length < 5) error = "Minimum 5 characters required";
-}
-
-if (field === "message") {
-  if (!value.trim()) error = "Message is required";
-  else if (value.length < 10) error = "Minimum 10 characters required";
-}
-
-setErrors((prev) => ({ ...prev, [field]: error }));
-
-};
-
-const validateForm = () => {
-let tempErrors = {};
-Object.keys(formData).forEach((field) => {
-validateField(field, formData[field]);
-if (!formData[field])
-   tempErrors[field] = `${field} required`;
-});
-setErrors(tempErrors);
-return Object.values(tempErrors).every((x) => x === "");
-};
-
-const handleSubmit = async (e) => {
-e.preventDefault();
-
-if (!validateForm()) {
-  setSuccess("Fix errors first ⚠️");
-  return;
-}
-
-try {
-  setLoading(true);
-
-  const postData = await fetch(
-    "https://script.google.com/macros/s/AKfycbxkLIvgUJjExdKsNMrE-TNa353fCLKpLugfI6wDi290R0-V8AKhYuJusTllLI2DU-ls/exec",
-    {
-      method: "POST",
-      body: JSON.stringify(formData),
-    }
-  );
-
-  if (postData) {
-    setToast({
-      show: true,
-      message: "Message sent successfully!, I will reach you soon!",
-      type: "success",
-    });
-  }
-
-  setFormData({ name: "", email: "", subject: "", message: "" });
-  setErrors({});
-} catch {
-  setToast({
-    show: true,
-    message: "Something went wrong!",
-    type: "error",
+  const [toast, setToast] = useState({
+    show: false,
+    message: "",
+    type: "",
   });
-} finally {
-  setLoading(false);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    purpose: "",
+    message: "",
+  });
+
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  /*
+   * n8n webhook
+   *
+   * .env
+   * VITE_CONTACT_WEBHOOK_URL=your-n8n-webhook-url
+   */
+  const webhookUrl = import.meta.env.VITE_CONTACT_WEBHOOK_URL;
+
+  /* =========================================================
+     ANIMATION
+  ========================================================= */
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const timeline = gsap.timeline({
+        defaults: {
+          ease: "power3.out",
+        },
+      });
+
+      timeline
+        .from(".contact-eyebrow", {
+          y: 20,
+          opacity: 0,
+          duration: 0.5,
+        })
+        .from(
+          ".contact-title",
+          {
+            y: 35,
+            opacity: 0,
+            duration: 0.7,
+          },
+          "-=0.2"
+        )
+        .from(
+          ".contact-description",
+          {
+            y: 20,
+            opacity: 0,
+            duration: 0.5,
+          },
+          "-=0.35"
+        )
+        .from(
+          leftRef.current,
+          {
+            x: -50,
+            opacity: 0,
+            duration: 0.8,
+          },
+          "-=0.2"
+        )
+        .from(
+          formRef.current,
+          {
+            x: 50,
+            opacity: 0,
+            duration: 0.8,
+          },
+          "-=0.7"
+        )
+        .from(
+          ".contact-social",
+          {
+            y: 25,
+            opacity: 0,
+            scale: 0.9,
+            stagger: 0.08,
+            duration: 0.4,
+          },
+          "-=0.5"
+        );
+
+      gsap.to(".contact-avatar", {
+        y: -12,
+        duration: 2.4,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+      });
+
+      gsap.to(".contact-orbit", {
+        rotation: 360,
+        duration: 18,
+        repeat: -1,
+        ease: "none",
+      });
+    }, pageRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  /* =========================================================
+     INPUT HANDLER
+  ========================================================= */
+
+  const handleInput = (field) => (event) => {
+    const value = event.target.value;
+
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+
+    validateField(field, value);
+  };
+
+  /* =========================================================
+     VALIDATION
+  ========================================================= */
+
+  const validateField = (field, value) => {
+    let error = "";
+
+    switch (field) {
+      case "name":
+        if (!value.trim()) {
+          error = "Name is required";
+        } else if (value.trim().length < 3) {
+          error = "Minimum 3 characters required";
+        }
+        break;
+
+      case "email":
+        if (!value.trim()) {
+          error = "Email is required";
+        } else if (
+          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+            value
+          )
+        ) {
+          error = "Enter a valid email address";
+        }
+        break;
+
+      case "mobile":
+        if (!value.trim()) {
+          error = "Mobile number is required";
+        } else if (!/^[0-9+\-\s()]{10,15}$/.test(value)) {
+          error = "Enter a valid mobile number";
+        }
+        break;
+
+      case "purpose":
+        if (!value) {
+          error = "Please select a purpose";
+        }
+        break;
+
+      case "message":
+        if (!value.trim()) {
+          error = "Message is required";
+        } else if (value.trim().length < 10) {
+          error = "Minimum 10 characters required";
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    setErrors((prev) => ({
+      ...prev,
+      [field]: error,
+    }));
+
+    return error;
+  };
+
+  const validateForm = () => {
+    const fields = Object.keys(formData);
+
+    const newErrors = {};
+
+    fields.forEach((field) => {
+      const error = validateField(field, formData[field]);
+
+      if (error) {
+        newErrors[field] = error;
+      }
+    });
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  /* =========================================================
+     SUBMIT
+  ========================================================= */
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!validateForm()) {
+      setToast({
+        show: true,
+        message: "Please fix the highlighted fields.",
+        type: "error",
+      });
+
+      return;
+    }
+
+    if (!webhookUrl) {
+      setToast({
+        show: true,
+        message: "Contact service is not configured yet.",
+        type: "error",
+      });
+
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const response = await fetch(webhookUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          source: "Portfolio Contact Form",
+          submittedAt: new Date().toISOString(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      /* SUCCESS */
+
+      setSubmitted(true);
+
+      setToast({
+        show: true,
+        message:
+          "Message received successfully. I'll contact you shortly!",
+        type: "success",
+      });
+
+      setFormData({
+        name: "",
+        email: "",
+        mobile: "",
+        purpose: "",
+        message: "",
+      });
+
+      setErrors({});
+
+      /* Return form after a short success state */
+
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 3500);
+    } catch (error) {
+      console.error(error);
+
+      setToast({
+        show: true,
+        message:
+          "Unable to send your message. Please try again.",
+        type: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /* =========================================================
+     CONTACT LINKS
+  ========================================================= */
+
+  const email = "princemaurya529@gmail.com";
+
+  const mailLink =
+    `mailto:${email}` +
+    `?subject=${encodeURIComponent(
+      "Project / Collaboration Enquiry"
+    )}` +
+    `&body=${encodeURIComponent(
+      "Hi Prince, I saw your portfolio and would like to discuss something with you."
+    )}`;
+
+  const socials = [
+    {
+      name: "GitHub",
+      icon: <FaGithub />,
+      link: "https://github.com/alphatech774623",
+      className: "github",
+    },
+    {
+      name: "LinkedIn",
+      icon: <FaLinkedin />,
+      link: "https://linkedin.com/in/prince-maurya-7826a7324",
+      className: "linkedin",
+    },
+    {
+      name: "WhatsApp",
+      icon: <FaWhatsapp />,
+      link: "https://wa.me/918840039506",
+      className: "whatsapp",
+    },
+    {
+      name: "Email",
+      icon: <FaEnvelope />,
+      link: mailLink,
+      className: "email",
+    },
+  ];
+
+  return (
+    <main className="contact-page" ref={pageRef}>
+      {/* =====================================================
+          BACKGROUND
+      ====================================================== */}
+
+      <div className="contact-grid-background"></div>
+
+      <div className="contact-glow contact-glow-one"></div>
+
+      <div className="contact-glow contact-glow-two"></div>
+
+      {/* =====================================================
+          TOAST
+      ====================================================== */}
+
+      {toast.show && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() =>
+            setToast({
+              show: false,
+              message: "",
+              type: "",
+            })
+          }
+        />
+      )}
+
+      {/* =====================================================
+          HEADER
+      ====================================================== */}
+
+      <section className="contact-header">
+        <div className="container">
+          <div className="contact-eyebrow">
+            <span></span>
+            LET'S CONNECT
+          </div>
+
+          <h1 className="contact-title">
+            Let's build
+            <span>something.</span>
+          </h1>
+
+          <p className="contact-description">
+            Have an idea, project or collaboration in mind?
+            Tell me about it. I'll get back to you as soon as
+            possible.
+          </p>
+        </div>
+      </section>
+
+      {/* =====================================================
+          MAIN CONTACT AREA
+      ====================================================== */}
+
+      <section className="contact-main-section">
+        <div className="container">
+          <div className="contact-layout">
+
+            {/* =================================================
+                LEFT SIDE
+            ================================================== */}
+
+            <div
+              className="contact-intro"
+              ref={leftRef}
+            >
+              <div className="contact-availability">
+                <span></span>
+                AVAILABLE FOR NEW PROJECTS
+              </div>
+
+              <h2>
+                Let's turn your
+                <span>idea into reality.</span>
+              </h2>
+
+              <p>
+                Whether you need a website, full-stack application,
+                technical collaboration or simply want to discuss
+                an idea, feel free to reach out.
+              </p>
+
+              {/* AVATAR */}
+
+              <div className="contact-visual">
+                <div className="contact-orbit"></div>
+
+                <div className="contact-avatar-glow"></div>
+
+                <img
+                  src="/conatact.svg"
+                  alt="Contact"
+                  className="contact-avatar"
+                />
+
+                <div className="contact-floating-card contact-floating-card-one">
+                  <FaBolt />
+                  <span>Fast Response</span>
+                </div>
+
+                <div className="contact-floating-card contact-floating-card-two">
+                  <FaCodeIcon />
+                  <span>Let's Build</span>
+                </div>
+              </div>
+
+              {/* QUICK INFO */}
+
+              <div className="contact-info-list">
+
+                <div className="contact-info-item">
+                  <div className="contact-info-icon location">
+                    <FaMapMarkerAlt />
+                  </div>
+
+                  <div>
+                    <span>LOCATION</span>
+                    <strong>Varanasi, India</strong>
+                  </div>
+                </div>
+
+                <div className="contact-info-item">
+                  <div className="contact-info-icon email">
+                    <FaEnvelope />
+                  </div>
+
+                  <div>
+                    <span>EMAIL</span>
+                    <strong>{email}</strong>
+                  </div>
+                </div>
+
+                <div className="contact-info-item">
+                  <div className="contact-info-icon time">
+                    <FaClock />
+                  </div>
+
+                  <div>
+                    <span>RESPONSE TIME</span>
+                    <strong>Usually within 24 hours</strong>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* SOCIALS */}
+
+              <div className="contact-socials">
+                {socials.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={item.name}
+                    className={`contact-social ${item.className}`}
+                  >
+                    {item.icon}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* =================================================
+                FORM
+            ================================================== */}
+
+            <div
+              className="contact-form-wrapper"
+              ref={formRef}
+            >
+              {!submitted ? (
+                <form
+                  className="contact-form"
+                  onSubmit={handleSubmit}
+                >
+                  <div className="contact-form-header">
+                    <div>
+                      <span>START A CONVERSATION</span>
+
+                      <h2>
+                        Tell me about
+                        <strong>your project.</strong>
+                      </h2>
+                    </div>
+
+                    <div className="contact-form-icon">
+                      <FaPaperPlane />
+                    </div>
+                  </div>
+
+                  {/* NAME */}
+
+                  <div className="contact-form-field">
+                    <label htmlFor="name">
+                      Your Name
+                    </label>
+
+                    <input
+                      id="name"
+                      type="text"
+                      placeholder="Enter your name"
+                      value={formData.name}
+                      onChange={handleInput("name")}
+                      className={errors.name ? "has-error" : ""}
+                    />
+
+                    {errors.name && (
+                      <small>{errors.name}</small>
+                    )}
+                  </div>
+
+                  {/* EMAIL + MOBILE */}
+
+                  <div className="contact-form-row">
+
+                    <div className="contact-form-field">
+                      <label htmlFor="email">
+                        Email Address
+                      </label>
+
+                      <input
+                        id="email"
+                        type="email"
+                        placeholder="you@example.com"
+                        value={formData.email}
+                        onChange={handleInput("email")}
+                        className={
+                          errors.email ? "has-error" : ""
+                        }
+                      />
+
+                      {errors.email && (
+                        <small>{errors.email}</small>
+                      )}
+                    </div>
+
+                    <div className="contact-form-field">
+                      <label htmlFor="mobile">
+                        Mobile Number
+                      </label>
+
+                      <input
+                        id="mobile"
+                        type="tel"
+                        placeholder="+91 98765 43210"
+                        value={formData.mobile}
+                        onChange={handleInput("mobile")}
+                        className={
+                          errors.mobile ? "has-error" : ""
+                        }
+                      />
+
+                      {errors.mobile && (
+                        <small>{errors.mobile}</small>
+                      )}
+                    </div>
+
+                  </div>
+
+                  {/* PURPOSE */}
+
+                  <div className="contact-form-field">
+                    <label htmlFor="purpose">
+                      Purpose of contacting me
+                    </label>
+
+                    <select
+                      id="purpose"
+                      value={formData.purpose}
+                      onChange={handleInput("purpose")}
+                      className={
+                        errors.purpose ? "has-error" : ""
+                      }
+                    >
+                      <option value="">
+                        Select a purpose
+                      </option>
+
+                      <option value="Enquiry">
+                        Enquiry
+                      </option>
+
+                      <option value="Collaboration">
+                        Collaboration
+                      </option>
+
+                      <option value="Website Development">
+                        Website Development
+                      </option>
+
+                      <option value="Others">
+                        Others
+                      </option>
+                    </select>
+
+                    {errors.purpose && (
+                      <small>{errors.purpose}</small>
+                    )}
+                  </div>
+
+                  {/* MESSAGE */}
+
+                  <div className="contact-form-field">
+                    <label htmlFor="message">
+                      Your Message
+                    </label>
+
+                    <textarea
+                      id="message"
+                      rows="6"
+                      placeholder="Tell me a little about what you have in mind..."
+                      value={formData.message}
+                      onChange={handleInput("message")}
+                      className={
+                        errors.message ? "has-error" : ""
+                      }
+                    />
+
+                    {errors.message && (
+                      <small>{errors.message}</small>
+                    )}
+                  </div>
+
+                  {/* SUBMIT */}
+
+                  <button
+                    type="submit"
+                    className="contact-submit-button"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <span className="contact-spinner"></span>
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send Message
+                        <FaArrowRight />
+                      </>
+                    )}
+                  </button>
+
+                  <div className="contact-form-note">
+                    <FaCheckCircle />
+                    <span>
+                      Your information is only used to respond
+                      to your enquiry.
+                    </span>
+                  </div>
+                </form>
+              ) : (
+                /* =================================================
+                   SUCCESS STATE
+                ================================================== */
+
+                <div className="contact-success">
+                  <div className="contact-success-icon">
+                    <FaCheckCircle />
+                  </div>
+
+                  <span>MESSAGE RECEIVED</span>
+
+                  <h2>
+                    Thank you for
+                    <strong>reaching out!</strong>
+                  </h2>
+
+                  <p>
+                    I've successfully received your message.
+                    I'll review it and get back to you shortly.
+                  </p>
+
+                  <div className="contact-success-line"></div>
+
+                  <small>
+                    Your message has been securely submitted.
+                  </small>
+                </div>
+              )}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          BOTTOM CTA
+      ====================================================== */}
+
+      <section className="contact-bottom-section">
+        <div className="container">
+          <div className="contact-bottom-card">
+            <div>
+              <span>NOT SURE WHERE TO START?</span>
+
+              <h2>
+                Just say
+                <strong>hello.</strong>
+              </h2>
+            </div>
+
+            <a
+              href={mailLink}
+              className="contact-bottom-button"
+            >
+              <FaEnvelope />
+              Email Me
+              <FaArrowRight />
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
 }
 
-};
-const email = "princemaurya529@gmail.com";
-
-const subject = "Hiring Request";
-const body = "Hi Prince, I saw your portfolio and want to work with you.";
-
-const mailLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-const socials = [
-{ icon: <FaGithub />, link: "https://github.com/alphatech774623" },
-{ icon: <FaLinkedin />, link: "https://linkedin.com/in/prince-maurya-7826a7324" },
-{ icon: <FaWhatsapp />, link: "https://wa.me/918840039506" },
-{ icon: <FaEnvelope />, link: mailLink },
-];
-
-return (
-<>
-{toast.show && (
-<Toast
-message={toast.message}
-type={toast.type}
-onClose={() => setToast({ ...toast, show: false })}
-/>
-)}
-
-  <Box
-    sx={{
-      minHeight: "100vh",
-      px: { xs: 2, md: 8 },
-      py: 8,
-      color: "#fff",
-      position: "relative",
-      overflow: "hidden",
-      background:
-        "radial-gradient(circle at 20% 20%, #1a1a2e, #0f172a, #020617)",
-    }}
-  >
-    {/* GLOW BACKGROUND */}
-    <Box
-      sx={{
-        position: "absolute",
-        width: 300,
-        height: 300,
-        background: "#ff6a00",
-        filter: "blur(120px)",
-        top: "-50px",
-        left: "-50px",
-        opacity: 0.3,
-      }}
-    />
-    <Box
-      sx={{
-        position: "absolute",
-        width: 300,
-        height: 300,
-        background: "#00c6ff",
-        filter: "blur(120px)",
-        bottom: "-50px",
-        right: "-50px",
-        opacity: 0.3,
-      }}
-    />
-
-    <Box
-      sx={{
-        maxWidth: "1200px",
-        margin: "auto",
-        borderRadius: "25px",
-        p: { xs: 3, md: 6 },
-        backdropFilter: "blur(20px)",
-        background: "rgba(255,255,255,0.05)",
-        border: "1px solid rgba(255,255,255,0.1)",
-      }}
-    >
-      <Typography
-        variant="h3"
-        sx={{
-          textAlign: "center",
-          mb: 5,
-          fontWeight: 800,
-          background: "linear-gradient(90deg,#ff6a00,#00c6ff)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-        }}
-      >
-        Contact Me
-      </Typography>
-
-      <Stack direction={{ xs: "column", md: "row" }} spacing={6}>
-        {/* LEFT */}
-        <Box ref={leftRef} sx={{ flex: 1 }}>
-          <Typography variant="h5" sx={{ mb: 3 }}>
-            Let's Connect 🚀
-          </Typography>
-
-          <Stack direction="row" spacing={2} ref={socialRef}>
-            {socials.map((item, i) => (
-              <Box
-                key={i}
-                component="a"
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={{
-                  width: 55,
-                  height: 55,
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "#fff",
-                  background: "rgba(255,255,255,0.08)",
-                  border: "1px solid rgba(255,255,255,0.2)",
-                  transition: "0.3s",
-                  "&:hover": {
-                    transform: "scale(1.2)",
-                    boxShadow: "0 0 25px #ff6a00",
-                  },
-                }}
-              >
-                {item.icon}
-              </Box>
-            ))}
-          </Stack>
-
-          <Box sx={{ mt: 6, display: "flex", justifyContent: "center" }}>
-            <Avatar
-              className="floating-avatar"
-              src="/conatact.svg"
-              sx={{
-                width: 220,
-                height: 220,
-                boxShadow: "0 0 40px rgba(255,106,0,0.6)",
-              }}
-            />
-          </Box>
-        </Box>
-
-        {/* FORM */}
-        <Box ref={rightRef} component="form" onSubmit={handleSubmit} sx={{ flex: 1 }}>
-          <Stack spacing={3}>
-            {["name", "email", "subject", "message"].map((field) => (
-              <TextField
-                key={field}
-                label={field}
-                value={formData[field]}
-                onChange={handleInput(field)}
-                error={!!errors[field]}
-                helperText={errors[field]}
-                fullWidth
-                multiline={field === "message"}
-                minRows={field === "message" ? 4 : 1}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "12px",
-                    color: "#fff",
-                    background: "rgba(255,255,255,0.05)",
-                    "& fieldset": {
-                      borderColor: "rgba(255,255,255,0.2)",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "#ff6a00",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#00c6ff",
-                      boxShadow: "0 0 10px rgba(0,198,255,0.5)",
-                    },
-                  },
-                  "& .MuiInputLabel-root": {
-                    color: "#aaa",
-                  },
-                }}
-              />
-            ))}
-
-            <Button
-              type="submit"
-              disabled={loading}
-              fullWidth
-              sx={{
-                py: 1.5,
-                borderRadius: "40px",
-                color: "#fff",
-                fontWeight: 700,
-                background:
-                  "linear-gradient(90deg,#ff6a00,#00c6ff)",
-                boxShadow: "0 10px 30px rgba(255,106,0,0.5)",
-                "&:hover": {
-                  transform: "scale(1.05)",
-                },
-              }}
-            >
-              {loading ? "Sending..." : "Send Message"}
-            </Button>
-
-            {success && (
-              <Typography sx={{ textAlign: "center", color: "#fff" }}>
-                {success}
-              </Typography>
-            )}
-          </Stack>
-        </Box>
-      </Stack>
-    </Box>
-  </Box>
-</>
-
-);
+/*
+ * Small helper icon.
+ * Keeping it here avoids adding another dependency
+ * just for one decorative icon.
+ */
+function FaCodeIcon() {
+  return <FaPaperPlane />;
 }
