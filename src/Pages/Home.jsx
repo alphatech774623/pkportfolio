@@ -17,12 +17,15 @@ import {
   FaCheckCircle,
   FaExternalLinkAlt,
 } from "react-icons/fa";
+
 import {
   SiMongodb,
   SiExpress,
   SiJavascript,
   SiBootstrap,
   SiGooglecloud,
+  SiN8N,
+  SiOpenai,
 } from "react-icons/si";
 
 function Home() {
@@ -236,12 +239,12 @@ function Home() {
 
                   {/* Floating technology cards */}
 
-                  <div className="floating-tech tech-react">
+                 <div className="floating-tech tech-react">
                     <FaReact />
                     <span>React</span>
                   </div>
 
-                  <div className="floating-tech tech-node">
+                   <div className="floating-tech tech-node">
                     <FaNodeJs />
                     <span>Node.js</span>
                   </div>
@@ -601,6 +604,16 @@ function Home() {
               <FaGithub />
               <span>Git & GitHub</span>
             </div>
+            <div className="tech-item">
+            <SiN8N />
+            <span>n8n Workflows</span>
+          </div>
+
+          <div className="tech-item">
+            <SiOpenai />
+            <span>ChatGPT/Codex</span>
+          </div>
+
           </div>
         </div>
       </section>

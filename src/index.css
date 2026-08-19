@@ -1189,64 +1189,84 @@ html,body{
    FLOATING TECHNOLOGY CARDS
    ========================================================= */
 
+/* =========================================================
+   FLOATING TECHNOLOGY CARDS
+   ========================================================= */
+
 .floating-tech {
   position: absolute;
 
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
 
-  padding: 9px 12px;
+  min-width: 82px;
+
+  padding: 8px 11px;
 
   color: #dce5f2;
 
-  background: rgba(10, 15, 25, 0.9);
+  background: rgba(9, 14, 23, 0.94);
 
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.11);
 
   border-radius: 9px;
 
   box-shadow:
-    0 15px 35px rgba(0, 0, 0, 0.25);
+    0 12px 30px rgba(0, 0, 0, 0.3);
 
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
 
-  z-index: 4;
+  white-space: nowrap;
+
+  z-index: 5;
 }
 
 .floating-tech svg {
   font-size: 15px;
 }
 
+
+/* React — upper left */
+
 .tech-react {
-  top: 45px;
-  left: -5px;
+  top: 34px;
+  left: -32px;
 
   color: #61dafb;
 
   animation: techFloatOne 4s ease-in-out infinite;
 }
 
+
+/* Node — upper right */
+
 .tech-node {
-  top: 165px;
-  right: -25px;
+  top: 105px;
+  right: -38px;
 
   color: #68a063;
 
   animation: techFloatTwo 5s ease-in-out infinite;
 }
 
+
+/* Mongo — bottom left */
+
 .tech-mongo {
-  bottom: 45px;
-  left: 0;
+  bottom: 38px;
+  left: -22px;
 
   color: #4db33d;
 
-  animation: techFloatOne 4.5s ease-in-out infinite;
+  animation: techFloatThree 4.5s ease-in-out infinite;
 }
+
 
 @keyframes techFloatOne {
   0%,
@@ -1255,9 +1275,10 @@ html,body{
   }
 
   50% {
-    transform: translateY(-8px);
+    transform: translateY(-7px);
   }
 }
+
 
 @keyframes techFloatTwo {
   0%,
@@ -1266,7 +1287,19 @@ html,body{
   }
 
   50% {
-    transform: translateY(8px);
+    transform: translateY(7px);
+  }
+}
+
+
+@keyframes techFloatThree {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
   }
 }
 
