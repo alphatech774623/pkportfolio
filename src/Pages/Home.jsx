@@ -1,242 +1,702 @@
-import { Typography, Button, Box, Avatar, Stack } from "@mui/material";
-import DownloadIcon from "@mui/icons-material/Download";
-import WorkIcon from "@mui/icons-material/Work";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import gsap from "gsap";
-import { useNavigate } from "react-router-dom";
+import {
+  FaArrowRight,
+  FaDownload,
+  FaGithub,
+  FaLinkedinIn,
+  FaReact,
+  FaNodeJs,
+  FaDatabase,
+  FaCloud,
+  FaCode,
+  FaServer,
+  FaRocket,
+  FaLayerGroup,
+  FaCheckCircle,
+  FaExternalLinkAlt,
+} from "react-icons/fa";
+import {
+  SiMongodb,
+  SiExpress,
+  SiJavascript,
+  SiBootstrap,
+  SiGooglecloud,
+} from "react-icons/si";
 
-export default function Home() {
-const containerRef = useRef();
-const textRef = useRef();
-const imgRef = useRef();
-const btnRef = useRef();
-const [typedText, setTypedText] = useState("");
-const fullText = "Prince Maurya";
-const navigate = useNavigate();
-useEffect(() => {
-let i = 0;
-const typeWriter = () => {
-if (i < fullText.length) {
-setTypedText(fullText.slice(0, i + 1));
-i++;
-setTimeout(typeWriter, 100);
-}
-};
-setTimeout(typeWriter, 500);
+function Home() {
+  const heroRef = useRef(null);
+  const imageRef = useRef(null);
+  const contentRef = useRef(null);
 
-gsap.fromTo(
-  containerRef.current,
-  { opacity: 0, y: 40 },
-  { opacity: 1, y: 0, duration: 1 }
-);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        defaults: {
+          ease: "power3.out",
+        },
+      });
 
-gsap.fromTo(
-  ".hero-item",
-  { y: 80, opacity: 0 },
-  {
-    y: 0,
-    opacity: 1,
-    stagger: 0.15,
-    duration: 0.8,
-    ease: "power4.out",
-  }
-);
-
-}, []);
-
-return (
-<Box
-sx={{
-minHeight: "100vh",
-display: "flex",
-alignItems: "center",
-justifyContent: "center",
-px: { xs: 2, md: 8 },
-background:
-"radial-gradient(circle at 20% 20%, #1a1a2e, #0f172a, #020617)",
-position: "relative",
-overflow: "hidden",
-color: "#fff",
-}}
->
-{/* GLOW BLOBS */}
-<Box
-sx={{
-position: "absolute",
-width: 400,
-height: 400,
-background: "#ff6a00",
-filter: "blur(150px)",
-top: "-100px",
-left: "-100px",
-opacity: 0.3,
-}}
-/>
-<Box
-sx={{
-position: "absolute",
-width: 400,
-height: 400,
-background: "#00c6ff",
-filter: "blur(150px)",
-bottom: "-100px",
-right: "-100px",
-opacity: 0.3,
-}}
-/>
-
-  <Stack
-    ref={containerRef}
-    direction={{ xs: "column", md: "row" }}
-    spacing={10}
-    alignItems="center"
-    sx={{
-      maxWidth: "1200px",
-      width: "100%",
-    }}
-  >
-    {/* LEFT */}
-    <Box sx={{ flex: 1 }}>
-      <Typography
-        className="hero-item"
-        sx={{ color: "#aaa", mb: 1 }}
-      >
-        👋 Hello, I'm
-      </Typography>
-
-      <Typography
-        className="hero-item"
-        variant="h2"
-        sx={{
-          fontWeight: 800,
-          mb: 2,
-          fontSize: {
-            xs: "2rem",
-            md: "3.5rem",
+      tl.from(".hero-eyebrow", {
+        y: 25,
+        opacity: 0,
+        duration: 0.6,
+      })
+        .from(
+          ".hero-title-line",
+          {
+            y: 45,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.12,
           },
-        }}
-      >
-        <span
-          style={{
-            background: "linear-gradient(90deg,#ff6a00,#00c6ff)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}
-        >
-          {typedText}
-        </span>
-        <span style={{ opacity: 0.6 }}>|</span>
-      </Typography>
+          "-=0.25"
+        )
+        .from(
+          ".hero-description",
+          {
+            y: 25,
+            opacity: 0,
+            duration: 0.6,
+          },
+          "-=0.35"
+        )
+        .from(
+          ".hero-actions",
+          {
+            y: 20,
+            opacity: 0,
+            duration: 0.5,
+          },
+          "-=0.3"
+        )
+        .from(
+          ".hero-social",
+          {
+            y: 15,
+            opacity: 0,
+            duration: 0.4,
+          },
+          "-=0.2"
+        )
+        .from(
+          imageRef.current,
+          {
+            scale: 0.9,
+            opacity: 0,
+            x: 35,
+            duration: 1,
+          },
+          "-=0.8"
+        );
 
-      <Typography
-        className="hero-item"
-        sx={{
-          fontSize: { xs: "1rem", md: "1.5rem" },
-          color: "#ccc",
-          mb: 3,
-        }}
-      >
-        Full Stack Developer (MERN)
-      </Typography>
+      gsap.to(".profile-float", {
+        y: -10,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+      });
 
-      <Typography
-        className="hero-item"
-        sx={{
-          color: "#aaa",
-          lineHeight: 1.8,
-          mb: 4,
-          maxWidth: "500px",
-        }}
-      >
-        I build modern, scalable and high-performance web applications
-        with clean UI and strong backend architecture.
-      </Typography>
+      gsap.utils.toArray(".reveal-item").forEach((element) => {
+        gsap.from(element, {
+          scrollTrigger: false,
+          y: 35,
+          opacity: 0,
+          duration: 0.7,
+          ease: "power3.out",
+          delay: 0.1,
+        });
+      });
+    }, heroRef);
 
-      {/* BUTTONS */}
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        spacing={3}
-        className="hero-item"
-      >
-        <Button
-          startIcon={<DownloadIcon />}
-           href="/princeResume.pdf"
-          download
-          sx={{
-            px: 5,
-            py: 1.5,
-            borderRadius: "40px",
-            fontWeight: 700,
-            background:
-              "linear-gradient(90deg,#ff6a00,#00c6ff)",
-            color: "#fff",
-            boxShadow: "0 10px 40px rgba(255,106,0,0.6)",
-            "&:hover": {
-              transform: "scale(1.08)",
-            },
-          }}
-        >
-          Download CV
-        </Button>
+    return () => ctx.revert();
+  }, []);
 
-        <Button
-          startIcon={<WorkIcon />}
-          onClick={() => navigate("/contact")}
-          sx={{
-            px: 5,
-            py: 1.5,
-            borderRadius: "40px",
-            fontWeight: 700,
-            color: "#fff",
-            border: "1px solid rgba(255,255,255,0.2)",
-            background: "rgba(255,255,255,0.05)",
-            "&:hover": {
-              transform: "scale(1.08)",
-              boxShadow: "0 0 30px #00c6ff",
-            },
-          }}
-        >
-          Hire Me
-        </Button>
-      </Stack>
-    </Box>
+  return (
+    <main className="home-page" ref={heroRef}>
+      {/* =====================================================
+          HERO
+      ====================================================== */}
 
-    {/* RIGHT IMAGE */}
-    <Box
-      className="hero-item"
-      sx={{
-        position: "relative",
-      }}
-    >
-      <Avatar
-        src="/profilePic.png"
-        sx={{
-          width: { xs: 200, md: 300 },
-          height: { xs: 200, md: 300 },
-          border: "4px solid rgba(255,255,255,0.1)",
-          boxShadow:
-            "0 0 40px rgba(255,106,0,0.6), 0 0 100px rgba(0,198,255,0.4)",
-        }}
-      />
+      <section className="hero-section">
+        <div className="hero-grid"></div>
 
-      {/* Glow ring */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: -20,
-          left: -20,
-          width: { xs: 240, md: 340 },
-          height: { xs: 240, md: 340 },
-          borderRadius: "50%",
-          border: "2px solid transparent",
-          borderTop: "2px solid #ff6a00",
-          borderRight: "2px solid #00c6ff",
-          animation: "spin 4s linear infinite",
-        }}
-      />
-    </Box>
-  </Stack>
-</Box>
+        <div className="hero-glow hero-glow-one"></div>
+        <div className="hero-glow hero-glow-two"></div>
 
-);
+        <div className="container">
+          <div className="row align-items-center g-5">
+            {/* LEFT CONTENT */}
+            <div className="col-lg-7">
+              <div ref={contentRef}>
+                <div className="hero-eyebrow">
+                  <span className="status-dot"></span>
+
+                  <span>Available for opportunities</span>
+                </div>
+
+                <h1 className="hero-title">
+                  <span className="hero-title-line d-block">
+                    Building digital
+                  </span>
+
+                  <span className="hero-title-line d-block">
+                    products that
+                  </span>
+
+                  <span className="hero-title-line d-block hero-highlight">
+                    solve real problems.
+                  </span>
+                </h1>
+
+                <p className="hero-description">
+                  Hi, I'm <strong>Prince Maurya</strong> — a Full Stack
+                  Developer focused on building modern web applications,
+                  scalable backend systems and practical digital products
+                  using the MERN stack.
+                </p>
+
+                <div className="hero-actions d-flex flex-wrap gap-3">
+                  <Link to="/projects" className="primary-action">
+                    View My Work
+                    <FaArrowRight />
+                  </Link>
+
+                  <a
+                    href="/princeResume.pdf"
+                    download
+                    className="secondary-action"
+                  >
+                    <FaDownload />
+                    Download Resume
+                  </a>
+                </div>
+
+                <div className="hero-social">
+                  <span className="social-label">Find me on</span>
+
+                  <a
+                    href="https://github.com/alphatech774623"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub"
+                  >
+                    <FaGithub />
+                  </a>
+
+                  <a
+                    href="https://www.linkedin.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                  >
+                    <FaLinkedinIn />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT PROFILE */}
+            <div className="col-lg-5">
+              <div
+                ref={imageRef}
+                className="hero-visual d-flex justify-content-center"
+              >
+                <div className="profile-float">
+                  <div className="profile-orbit orbit-one"></div>
+                  <div className="profile-orbit orbit-two"></div>
+
+                  <div className="profile-card">
+                    <div className="profile-image-wrapper">
+                      <img
+                        src="/profilePic.png"
+                        alt="Prince Maurya - Full Stack Developer"
+                        className="profile-image"
+                      />
+
+                      <div className="profile-verified">
+                        <FaCheckCircle />
+                      </div>
+                    </div>
+
+                    <div className="profile-card-content">
+                      <span className="profile-role">
+                        FULL STACK DEVELOPER
+                      </span>
+
+                      <h2>Prince Maurya</h2>
+
+                      <p>
+                        React · Node.js · MongoDB · Cloud
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Floating technology cards */}
+
+                  <div className="floating-tech tech-react">
+                    <FaReact />
+                    <span>React</span>
+                  </div>
+
+                  <div className="floating-tech tech-node">
+                    <FaNodeJs />
+                    <span>Node.js</span>
+                  </div>
+
+                  <div className="floating-tech tech-mongo">
+                    <SiMongodb />
+                    <span>MongoDB</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* SCROLL INDICATOR */}
+          <div className="hero-scroll">
+            <span></span>
+            <small>Scroll to explore</small>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          QUICK STATS
+      ====================================================== */}
+
+      <section className="stats-section">
+        <div className="container">
+          <div className="stats-wrapper">
+            <div className="stat-item">
+              <strong>4+</strong>
+              <span>Real Projects</span>
+            </div>
+
+            <div className="stat-divider"></div>
+
+            <div className="stat-item">
+              <strong>MERN</strong>
+              <span>Primary Stack</span>
+            </div>
+
+            <div className="stat-divider"></div>
+
+            <div className="stat-item">
+              <strong>Full Stack</strong>
+              <span>Development Focus</span>
+            </div>
+
+            <div className="stat-divider"></div>
+
+            <div className="stat-item">
+              <strong>Cloud</strong>
+              <span>Deployment Experience</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          ABOUT
+      ====================================================== */}
+
+      <section className="about-section section-padding">
+        <div className="container">
+          <div className="row g-5 align-items-center">
+            <div className="col-lg-5">
+              <div className="section-label">ABOUT ME</div>
+
+              <h2 className="section-title">
+                I don't just write code.
+                <span>I build products.</span>
+              </h2>
+            </div>
+
+            <div className="col-lg-7">
+              <div className="about-content">
+                <p>
+                  I'm a Computer Science student and Full Stack Developer
+                  who enjoys turning ideas into functional, production-style
+                  web applications.
+                </p>
+
+                <p>
+                  My primary development stack is{" "}
+                  <strong>MongoDB, Express.js, React and Node.js</strong>.
+                  I work across the complete application lifecycle —
+                  from designing interfaces and REST APIs to authentication,
+                  databases, cloud services and deployment.
+                </p>
+
+                <p>
+                  Alongside development, I'm also working on{" "}
+                  <strong>Fixkar</strong>, a real-world service marketplace
+                  concept designed to connect customers with local
+                  professionals.
+                </p>
+
+                <Link to="/contact" className="text-link">
+                  Let's work together
+                  <FaArrowRight />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          WHAT I BUILD
+      ====================================================== */}
+
+      <section className="capabilities-section section-padding">
+        <div className="container">
+          <div className="section-heading-row">
+            <div>
+              <div className="section-label">WHAT I BUILD</div>
+
+              <h2 className="section-title">
+                From idea to
+                <span>working product.</span>
+              </h2>
+            </div>
+
+            <p className="section-heading-description">
+              I focus on practical development — building interfaces,
+              backend systems and complete applications instead of isolated
+              UI demos.
+            </p>
+          </div>
+
+          <div className="row g-4 mt-3">
+            <div className="col-md-6 col-lg-3">
+              <div className="capability-card">
+                <div className="capability-icon">
+                  <FaLayerGroup />
+                </div>
+
+                <span>01</span>
+
+                <h3>Frontend</h3>
+
+                <p>
+                  Responsive and interactive interfaces using React,
+                  JavaScript and modern UI principles.
+                </p>
+              </div>
+            </div>
+
+            <div className="col-md-6 col-lg-3">
+              <div className="capability-card">
+                <div className="capability-icon">
+                  <FaServer />
+                </div>
+
+                <span>02</span>
+
+                <h3>Backend</h3>
+
+                <p>
+                  REST APIs, authentication, business logic and scalable
+                  Node.js backend architecture.
+                </p>
+              </div>
+            </div>
+
+            <div className="col-md-6 col-lg-3">
+              <div className="capability-card">
+                <div className="capability-icon">
+                  <FaDatabase />
+                </div>
+
+                <span>03</span>
+
+                <h3>Database</h3>
+
+                <p>
+                  MongoDB data modeling, Mongoose schemas and reliable
+                  application data workflows.
+                </p>
+              </div>
+            </div>
+
+            <div className="col-md-6 col-lg-3">
+              <div className="capability-card">
+                <div className="capability-icon">
+                  <FaCloud />
+                </div>
+
+                <span>04</span>
+
+                <h3>Deployment</h3>
+
+                <p>
+                  Cloud services, Git workflows and deployment of full-stack
+                  applications.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          FEATURED PROJECT
+      ====================================================== */}
+
+      <section className="featured-section section-padding">
+        <div className="container">
+          <div className="section-label">FEATURED PROJECT</div>
+
+          <div className="featured-project mt-4">
+            <div className="row g-0 align-items-stretch">
+              <div className="col-lg-7">
+                <div className="featured-image">
+                  <img
+                    src="/fixkar.png"
+                    alt="Fixkar Smart Services"
+                  />
+
+                  <div className="image-overlay">
+                    <span>Full Stack Application</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-lg-5">
+                <div className="featured-content">
+                  <div className="project-number">01 / FEATURED</div>
+
+                  <h2>Fixkar Smart Services</h2>
+
+                  <p>
+                    A service marketplace concept designed to connect
+                    customers with local professionals such as electricians,
+                    plumbers, painters, carpenters and other service
+                    providers.
+                  </p>
+
+                  <div className="project-features">
+                    <div>
+                      <FaCheckCircle />
+                      Customer & professional workflows
+                    </div>
+
+                    <div>
+                      <FaCheckCircle />
+                      Authentication & authorization
+                    </div>
+
+                    <div>
+                      <FaCheckCircle />
+                      Booking & payment architecture
+                    </div>
+
+                    <div>
+                      <FaCheckCircle />
+                      Location-based professional discovery
+                    </div>
+                  </div>
+
+                  <div className="technology-list">
+                    <span>
+                      <FaReact />
+                      React
+                    </span>
+
+                    <span>
+                      <FaNodeJs />
+                      Node.js
+                    </span>
+
+                    <span>
+                      <SiExpress />
+                      Express
+                    </span>
+
+                    <span>
+                      <SiMongodb />
+                      MongoDB
+                    </span>
+                  </div>
+
+                  <div className="featured-actions">
+                    <a
+                      href="https://fixkarr.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="primary-action"
+                    >
+                      View Project
+                      <FaExternalLinkAlt />
+                    </a>
+
+                    <Link to="/projects" className="text-link">
+                      All projects
+                      <FaArrowRight />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          TECHNOLOGY STACK
+      ====================================================== */}
+
+      <section className="stack-section section-padding">
+        <div className="container">
+          <div className="text-center">
+            <div className="section-label">TECHNOLOGY STACK</div>
+
+            <h2 className="section-title centered">
+              Tools I use to
+              <span>build things.</span>
+            </h2>
+          </div>
+
+          <div className="tech-grid mt-5">
+            <div className="tech-item">
+              <FaReact />
+              <span>React</span>
+            </div>
+
+            <div className="tech-item">
+              <SiJavascript />
+              <span>JavaScript</span>
+            </div>
+
+            <div className="tech-item">
+              <FaNodeJs />
+              <span>Node.js</span>
+            </div>
+
+            <div className="tech-item">
+              <SiExpress />
+              <span>Express.js</span>
+            </div>
+
+            <div className="tech-item">
+              <SiMongodb />
+              <span>MongoDB</span>
+            </div>
+
+            <div className="tech-item">
+              <SiBootstrap />
+              <span>Bootstrap</span>
+            </div>
+
+            <div className="tech-item">
+              <SiGooglecloud />
+              <span>Google Cloud</span>
+            </div>
+
+            <div className="tech-item">
+              <FaGithub />
+              <span>Git & GitHub</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          CURRENT FOCUS
+      ====================================================== */}
+
+      <section className="focus-section section-padding">
+        <div className="container">
+          <div className="focus-card">
+            <div className="row align-items-center g-4">
+              <div className="col-lg-7">
+                <div className="section-label">CURRENT FOCUS</div>
+
+                <h2>
+                  Building, learning and
+                  <span>shipping.</span>
+                </h2>
+
+                <p>
+                  I'm continuously improving my full-stack development
+                  skills by working on real applications, understanding
+                  system architecture and learning how products are
+                  actually built and deployed.
+                </p>
+              </div>
+
+              <div className="col-lg-5">
+                <div className="focus-list">
+                  <div>
+                    <FaRocket />
+                    <span>Building real-world products</span>
+                  </div>
+
+                  <div>
+                    <FaCode />
+                    <span>Improving software architecture</span>
+                  </div>
+
+                  <div>
+                    <FaServer />
+                    <span>Strengthening backend development</span>
+                  </div>
+
+                  <div>
+                    <FaCloud />
+                    <span>Learning deployment & cloud systems</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          CTA
+      ====================================================== */}
+
+      <section className="home-cta section-padding">
+        <div className="container">
+          <div className="cta-inner text-center">
+            <div className="section-label">LET'S CONNECT</div>
+
+            <h2>
+              Have an idea?
+              <span>Let's build it.</span>
+            </h2>
+
+            <p>
+              Whether you're looking for a developer, have a project idea,
+              or simply want to connect — I'd be happy to hear from you.
+            </p>
+
+            <div className="d-flex justify-content-center flex-wrap gap-3">
+              <Link to="/contact" className="primary-action">
+                Get In Touch
+                <FaArrowRight />
+              </Link>
+
+              <a
+                href="https://github.com/alphatech774623"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="secondary-action"
+              >
+                <FaGithub />
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
 }
+
+export default Home;

@@ -12,8 +12,6 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 
-
-
 const navItems = [
   {
     label: "Home",
