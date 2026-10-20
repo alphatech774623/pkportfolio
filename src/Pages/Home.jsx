@@ -74,7 +74,7 @@ function Home() {
                 <p className="hero-description">Hi, I'm <strong>Prince Maurya</strong> — a Full Stack Developer focused on building modern web applications, scalable backend systems and practical digital products using the MERN stack.</p>
                 <div className="hero-actions d-flex flex-wrap gap-3">
                   <Link to="/projects" className="primary-action">View My Work<FaArrowRight /></Link>
-                  <a href="/princeResume.pdf" download className="secondary-action"><FaDownload />Download Resume</a>
+                  <a href="/prince-resume.pdf" download className="secondary-action"><FaDownload />Download Resume</a>
                 </div>
                 <div className="hero-social">
                   <span className="social-label">Find me on</span>
