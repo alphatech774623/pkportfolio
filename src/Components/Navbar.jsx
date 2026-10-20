@@ -131,7 +131,7 @@ function Navbar() {
                 {/* MOBILE MENU ACTIONS */}
                 <li className="nav-item mobile-menu-actions">
                   <a
-                    href="/princeResume.pdf"
+                    href="/prince-resume.pdf"
                     download
                     className="resume-button"
                     onClick={closeMenu}
@@ -166,7 +166,7 @@ function Navbar() {
               </a>
 
               <a
-                href="/princeResume.pdf"
+                href="/prince-resume.pdf"
                 download
                 className="resume-button"
               >
