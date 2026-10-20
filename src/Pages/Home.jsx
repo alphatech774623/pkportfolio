@@ -98,7 +98,7 @@ function Home() {
                   <div className="profile-orbit orbit-two"></div>
                   <div className="profile-card">
                     <div className="profile-image-wrapper">
-                      <img src="/profilePic.png" alt="Prince Maurya - Full Stack Developer" className="profile-image" />
+                      <img src="/profilePic.jpg" alt="Prince Maurya - Full Stack Developer" className="profile-image" />
                       <div className="profile-verified"><FaCheckCircle /></div>
                     </div>
                     <div className="profile-card-content">
