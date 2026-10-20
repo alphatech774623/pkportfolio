@@ -340,7 +340,7 @@ export default function Contact() {
     {
       name: "LinkedIn",
       icon: <FaLinkedin />,
-      link: "https://linkedin.com/in/prince-maurya-7826a7324",
+      link: "https://linkedin.com/in/princemaurya7746",
       className: "linkedin",
     },
     {

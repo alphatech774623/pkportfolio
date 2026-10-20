@@ -86,7 +86,7 @@ function Home() {
                 <div className="hero-social">
                   <span className="social-label">Find me on</span>
                   <a href="https://github.com/alphatech774623" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><FaGithub /></a>
-                  <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><FaLinkedinIn /></a>
+                  <a href="https://www.linkedin.com/in/princemaurya7746" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><FaLinkedinIn /></a>
                 </div>
               </div>
             </div>
